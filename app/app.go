@@ -57,6 +57,8 @@ import (
 	"github.com/cosmos/gaia/v15/app/upgrades"
 	v15 "github.com/cosmos/gaia/v15/app/upgrades/v15"
 	"github.com/cosmos/gaia/v15/x/globalfee"
+
+	memiavlstore "github.com/crypto-org-chain/cronos/store"
 )
 
 var (
@@ -122,6 +124,8 @@ func NewGaiaApp(
 	// App Opts
 	skipGenesisInvariants := cast.ToBool(appOpts.Get(crisis.FlagSkipGenesisInvariants))
 	invCheckPeriod := cast.ToUint(appOpts.Get(server.FlagInvCheckPeriod))
+
+	baseAppOptions = memiavlstore.SetupMemIAVL(logger, homePath, appOpts, false, false, baseAppOptions)
 
 	bApp := baseapp.NewBaseApp(
 		appName,
